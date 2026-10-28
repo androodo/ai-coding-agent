@@ -43,6 +43,16 @@ Permission prompts (writes, shell, PRs):
 5. Optional `verify_command` (or a later `run_command`) feeds test output back into the next turn.
 6. `open_pr` stages **only** files this session wrote, commits, pushes a feature branch, and runs `gh pr create`. If the model forgets to call it, the CLI offers the same flow at the end.
 
+## Coding tools
+
+| Tool | What it does |
+| --- | --- |
+| `read_file` | Reads a UTF-8 file inside the target repository. You can request a specific line window with a 1-based `offset` and a `limit`. |
+| `search_code` | Explores the repository in one of three modes: `glob` lists matching files, `grep` searches file contents with a regular expression, and `ast` runs a tree-sitter query. |
+| `edit_file` | Writes or patches a repository file. Provide `old_text` to replace that exact substring, or omit it to write the full contents from `new_text`. Tree-sitter validation rejects edits that introduce syntax errors when a grammar is available. An optional `verify_command` runs after a successful write. |
+| `run_command` | Runs a shell command from the target repository, for example to run tests, a linter, or inspect Git state. The command requires permission and has a configurable timeout. |
+| `open_pr` | Stages only files the agent edited, commits them, pushes a feature branch, and creates a GitHub pull request using `gh`. This tool requires permission and GitHub CLI availability. |
+
 ## Tests
 
 ```bash
